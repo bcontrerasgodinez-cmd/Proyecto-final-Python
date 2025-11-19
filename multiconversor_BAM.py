@@ -1,16 +1,34 @@
-import re
+import re # Importar módulo de expresiones regulares
+
+# -------------------------------------------------------------
+# CONSTANTES DE OPCIONES DEL MENÚ
+# -------------------------------------------------------------
+TEMPERATURA = 1
+PESO = 2
+MONEDA = 3
+HISTORIAL = 4
+BUSCAR = 5
+SALIR = 6
+# -------------------------------------------------------------
+# CONSTANTES Y VARIABLES GLOBALES
+# -------------------------------------------------------------
+DOLAR_MXN = 18.6
+EURO_USD = 1.15
+EURO_MXN = 21.5
+DOLAR_A_EURO = 0.87
+LIBRAS = 2.20462
 
 # -------------------------------------------------------------
 # CLASE PRINCIPAL DEL PROGRAMA
 # -------------------------------------------------------------
-class Conversor:
-    def __init__(self, nombre):
+class Conversor:    # Clase para el conversor multifuncional
+    def __init__(self, nombre):     # el self sirve para referirse a la instancia
         self.nombre = nombre
         self.historial = []  # Variable no primitiva (lista)
         self.tasas = {       # Variable no primitiva (diccionario)
-            "dolar_mxn": 18.6,
-            "euro_usd": 1.15,
-            "euro_mxn": 21.5
+            "dolar_mxn": DOLAR_MXN,
+            "euro_usd": EURO_USD,
+            "euro_mxn": EURO_MXN
         }
 
     def saludar(self):
@@ -19,9 +37,9 @@ class Conversor:
     def agregar_conversion(self, descripcion):
         self.historial.append(descripcion)
 
-    def buscar_conversion(self, termino):
+    def buscar_conversion(self, termino):    
         """Filtra el historial de conversiones usando búsqueda parcial."""
-        return [c for c in self.historial if termino.lower() in c.lower()]
+        return [c for c in self.historial if termino.lower() in c.lower()]  
 
 
 # -------------------------------------------------------------
@@ -39,9 +57,9 @@ def validar_si_no(respuesta):
 # -------------------------------------------------------------
 # PROGRAMA PRINCIPAL
 # -------------------------------------------------------------
-app = Conversor("Multiconversor BAM")
-print(app.saludar())
-print("-" * 50)
+app = Conversor("Multiconversor BAM")  # Crear instancia de la clase Conversor
+print(app.saludar())      # Saludo inicial
+print("-" * 50)          # Separador visual
 
 seguir = 'si'
 
@@ -60,7 +78,7 @@ while seguir == 'si':
         # -------------------------------------------------------------
         # 1️⃣ CONVERSIONES DE TEMPERATURA
         # -------------------------------------------------------------
-        if opcion == 1:
+        if opcion == TEMPERATURA:
             print("\n🌞🔥 ¡Hora de calentar o enfriar! 🔥🌞")
             print("1️⃣ Fahrenheit ➡️ Celsius")
             print("2️⃣ Celsius ➡️ Fahrenheit")
@@ -68,24 +86,24 @@ while seguir == 'si':
             subopcion = int(input("Ingresa tu elección: "))
             valor = float(input("Ingresa el valor que quieras convertir 🌡️: "))
 
-            if subopcion == 1:
-                resultado = (valor - 32) * 5 / 9
-                mensaje = f"{valor:.2f} °F = {resultado:.2f} °C"
+            if subopcion == 1: # Convertir de Fahrenheit a Celsius
+                resultado = (valor - 32) * 5 / 9 
+                mensaje = f"{valor:.2f} °F = {resultado:.2f} °C"   # Formateo a 2 decimales
                 print(f"❄️ Resultado: {mensaje} — ¡Fresco como una lechuga! 🥬")
-            elif subopcion == 2:
+            elif subopcion == 2: # Convertir de Celsius a Fahrenheit
                 resultado = (valor * 9 / 5) + 32
-                mensaje = f"{valor:.2f} °C = {resultado:.2f} °F"
+                mensaje = f"{valor:.2f} °C = {resultado:.2f} °F"      # Formateo a 2 decimales
                 print(f"🔥 Resultado: {mensaje} — ¡Esto está que arde! 🔥")
             else:
-                print("😅 Ups... esa opción no existe.")
+                print("😅 Ups... esa opción no existe.")     
                 continue
 
-            app.agregar_conversion(f"Temperatura: {mensaje}")
+            app.agregar_conversion(f"Temperatura: {mensaje}")   # Agregar al historial
 
         # -------------------------------------------------------------
         # 2️⃣ CONVERSIONES DE PESO
         # -------------------------------------------------------------
-        elif opcion == 2:
+        elif opcion == PESO:
             print("\n🏋️ ¡Hora de mover el cuerpo! 💪")
             print("1️⃣ Libras ➡️ Kilogramos")
             print("2️⃣ Kilogramos ➡️ Libras")
@@ -93,51 +111,51 @@ while seguir == 'si':
             subopcion = int(input("Ingresa tu elección: "))
             valor = float(input("Ingresa el peso que quieras convertir ⚖️: "))
 
-            if subopcion == 1:
-                resultado = valor / 2.20462
-                mensaje = f"{valor:.2f} lb = {resultado:.2f} kg"
+            if subopcion == 1: # Convertir de Libras a Kilogramos
+                resultado = valor / LIBRAS
+                mensaje = f"{valor:.2f} lb = {resultado:.2f} kg"    # Formateo a 2 decimales
                 print(f"💫 Resultado: {mensaje} — ¡Más livian@ de lo que pensabas! 😜")
-            elif subopcion == 2:
-                resultado = valor * 2.20462
-                mensaje = f"{valor:.2f} kg = {resultado:.2f} lb"
+            elif subopcion == 2:      # Convertir de Kilogramos a Libras
+                resultado = valor * LIBRAS       # Multiplicamos kg por 2.20462 que es lb
+                mensaje = f"{valor:.2f} kg = {resultado:.2f} lb"       # Formateo a 2 decimales
                 print(f"💥 Resultado: {mensaje} — ¡Puro músculo! 💪")
             else:
                 print("😅 Esa opción no está en el gimnasio.")
                 continue
 
-            app.agregar_conversion(f"Peso: {mensaje}")
+            app.agregar_conversion(f"Peso: {mensaje}")    # Agregar al historial
 
         # -------------------------------------------------------------
         # 3️⃣ CONVERSIONES DE MONEDA
         # -------------------------------------------------------------
-        elif opcion == 3:
+        elif opcion == MONEDA:
             print("\n💸 ¡Hora de hablar de dinero! 💵💶💴")
             print("1️⃣ Dólares 🇺🇸 ➡️ Pesos MXN 🇲🇽")
             print("2️⃣ Pesos MXN 🇲🇽 ➡️ Dólares 🇺🇸")
-            print("3️⃣ Dólares 🇺🇸 ➡️ Euros 🇪🇺 (Tasa fija: USD * 0.87)")
-            print("4️⃣ Euros 🇪🇺 ➡️ Dólares 🇺🇸 (Tasa fija: 1.15)")
-            print("5️⃣ Euros 🇪🇺 ➡️ Pesos MXN 🇲🇽 (Tasa fija: 21.5)")
-            print("6️⃣ Pesos MXN 🇲🇽 ➡️ Euros 🇪🇺 (Tasa fija: 21.5)")
+            print(f"3️⃣ Dólares 🇺🇸 ➡️ Euros 🇪🇺 (Tasa fija: USD * {DOLAR_A_EURO})")
+            print(f"4️⃣ Euros 🇪🇺 ➡️ Dólares 🇺🇸 (Tasa fija: {EURO_USD})")
+            print(f"5️⃣ Euros 🇪🇺 ➡️ Pesos MXN 🇲🇽 (Tasa fija: {EURO_MXN})")
+            print(f"6️⃣ Pesos MXN 🇲🇽 ➡️ Euros 🇪🇺 (Tasa fija: {EURO_MXN})")
             
             subopcion = int(input("Ingresa tu elección: "))
             valor = float(input("Ingresa el monto a convertir 💰: "))
 
-            if subopcion == 1:
+            if subopcion == 1:       # Convertir de Dólares a Pesos MXN
                 resultado = valor * app.tasas["dolar_mxn"]
                 mensaje = f"${valor:.2f} USD = ${resultado:.2f} MXN"
-            elif subopcion == 2:
+            elif subopcion == 2:     # Convertir de Pesos MXN a Dólares
                 resultado = valor / app.tasas["dolar_mxn"]
                 mensaje = f"${valor:.2f} MXN = ${resultado:.2f} USD"
-            elif subopcion == 3:
+            elif subopcion == 3:     # Convertir de Dólares a Euros
                 resultado = valor * 0.87
                 mensaje = f"${valor:.2f} USD = €{resultado:.2f} EUR"
-            elif subopcion == 4:
+            elif subopcion == 4:     # Convertir de Euros a Dólares
                 resultado = valor * app.tasas["euro_usd"]
                 mensaje = f"€{valor:.2f} EUR = ${resultado:.2f} USD"
-            elif subopcion == 5:
+            elif subopcion == 5:     # Convertir de Euros a Pesos MXN  
                 resultado = valor * app.tasas["euro_mxn"]
                 mensaje = f"€{valor:.2f} EUR = ${resultado:.2f} MXN"
-            elif subopcion == 6:
+            elif subopcion == 6:    # Convertir de Pesos MXN a Euros
                 resultado = valor / app.tasas["euro_mxn"]
                 mensaje = f"${valor:.2f} MXN = €{resultado:.2f} EUR"
             else:
@@ -150,7 +168,7 @@ while seguir == 'si':
         # -------------------------------------------------------------
         # 4️⃣ MOSTRAR HISTORIAL
         # -------------------------------------------------------------
-        elif opcion == 4:
+        elif opcion == HISTORIAL: # Mostrar el historial de conversiones
             if app.historial:
                 print("\n📜 HISTORIAL DE CONVERSIONES:")
                 for h in app.historial:
@@ -161,9 +179,9 @@ while seguir == 'si':
         # -------------------------------------------------------------
         # 5️⃣ BÚSQUEDA DE CONVERSIÓN
         # -------------------------------------------------------------
-        elif opcion == 5:
+        elif opcion == BUSCAR: # Buscar en el historial de conversiones
             termino = input("🔍 Ingresa un texto para buscar en el historial: ")
-            resultados = app.buscar_conversion(termino)
+            resultados = app.buscar_conversion(termino) # app es la instancia de Conversor
             if resultados:
                 print("\n🎯 Coincidencias encontradas:")
                 for r in resultados:
@@ -174,7 +192,7 @@ while seguir == 'si':
         # -------------------------------------------------------------
         # 6️⃣ SALIR
         # -------------------------------------------------------------
-        elif opcion == 6:
+        elif opcion == SALIR: # Salir del programa
             seguir = 'no'
             print("\n👋 Gracias por usar el Multiconversor BAM 💥💣 ¡Vuelve pronto! 😄")
 
@@ -184,8 +202,8 @@ while seguir == 'si':
         # -------------------------------------------------------------
         # PREGUNTAR SI DESEA CONTINUAR
         # -------------------------------------------------------------
-        if seguir != 'no':
-            print("-" * 50)
+        if seguir != 'no': # Si no se eligió salir
+            print("-" * 50) # Separador visual
             respuesta = input("¿Quieres seguir jugando a convertir cosas? (si/no): ")
             respuesta = convertir_a_minusculas(respuesta)
 
@@ -198,7 +216,7 @@ while seguir == 'si':
     except ValueError:
         print("❌ Error: ¡Debes ingresar un número válido o una opción numérica!")
         print("Volviendo al menú principal...")
-    except Exception as e:
+    except Exception as e:    # e es la variable que captura el error
         print(f"Ocurrió un error inesperado: {e}")
         seguir = 'no'
 
