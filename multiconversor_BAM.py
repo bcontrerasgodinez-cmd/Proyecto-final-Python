@@ -53,6 +53,16 @@ def validar_si_no(respuesta):
     """Usa expresiones regulares para validar respuestas de 'si' o 'no'."""
     return re.match(r'^(si|no)$', respuesta.strip().lower()) is not None
 
+def obtener_opcion_validada(prompt, opciones_validas):   # Función para obtener opción válida
+    while True:
+        try:
+            opcion = int(input(prompt))   # prompt se usa para mostrar el mensaje
+            if opcion in opciones_validas:
+                return opcion
+            else:
+                print("❌ Opción inválida. Intenta de nuevo.")
+        except ValueError:
+            print("⚠️ Error: ¡Debes ingresar un número válido!")
 
 # -------------------------------------------------------------
 # PROGRAMA PRINCIPAL
@@ -73,7 +83,7 @@ while seguir == 'si':
         print("5️⃣ Buscar conversión 🔍")
         print("6️⃣ Salir 🚪")
 
-        opcion = int(input("👉 ¿Qué quieres convertir hoy? "))
+        opcion = obtener_opcion_validada("👉 ¿Qué quieres convertir hoy? ", [1, 2, 3, 4, 5, 6])
 
         # -------------------------------------------------------------
         # 1️⃣ CONVERSIONES DE TEMPERATURA
@@ -83,7 +93,7 @@ while seguir == 'si':
             print("1️⃣ Fahrenheit ➡️ Celsius")
             print("2️⃣ Celsius ➡️ Fahrenheit")
             
-            subopcion = int(input("Ingresa tu elección: "))
+            subopcion = obtener_opcion_validada("Ingresa tu elección: ", [1, 2])
             valor = float(input("Ingresa el valor que quieras convertir 🌡️: "))
 
             if subopcion == 1: # Convertir de Fahrenheit a Celsius
@@ -108,7 +118,7 @@ while seguir == 'si':
             print("1️⃣ Libras ➡️ Kilogramos")
             print("2️⃣ Kilogramos ➡️ Libras")
 
-            subopcion = int(input("Ingresa tu elección: "))
+            subopcion = obtener_opcion_validada("Ingresa tu elección: ", [1, 2])
             valor = float(input("Ingresa el peso que quieras convertir ⚖️: "))
 
             if subopcion == 1: # Convertir de Libras a Kilogramos
@@ -137,7 +147,7 @@ while seguir == 'si':
             print(f"5️⃣ Euros 🇪🇺 ➡️ Pesos MXN 🇲🇽 (Tasa fija: {EURO_MXN})")
             print(f"6️⃣ Pesos MXN 🇲🇽 ➡️ Euros 🇪🇺 (Tasa fija: {EURO_MXN})")
             
-            subopcion = int(input("Ingresa tu elección: "))
+            subopcion = obtener_opcion_validada("Ingresa tu elección: ", [1, 2, 3, 4, 5, 6])
             valor = float(input("Ingresa el monto a convertir 💰: "))
 
             if subopcion == 1:       # Convertir de Dólares a Pesos MXN
